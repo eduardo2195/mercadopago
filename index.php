@@ -1,23 +1,20 @@
 <?php
-// SDK de Mercado Pago
-require __DIR__ .  '/vendor/autoload.php';
+    require_once 'vendor/autoload.php'; // You have to require the library from your Composer vendor folder
 
-// Agrega credenciales
-MercadoPago\SDK::setAccessToken('TEST-1928287830883831-022605-158bf009bd75e8e4a1dc43582f116144-297467774');
+    MercadoPago\SDK::setAccessToken("TEST-1928287830883831-022605-158bf009bd75e8e4a1dc43582f116144-297467774"); // Either Production or SandBox AccessToken
 
-// Crea un objeto de preferencia
-$preference = new MercadoPago\Preference();
+    $payment = new MercadoPago\Payment();
+    
+    $payment->transaction_amount = 141;
+    $payment->token = "YOUR_CARD_TOKEN";
+    $payment->description = "Ergonomic Silk Shirt";
+    $payment->installments = 1;
+    $payment->payment_method_id = "visa";
+    $payment->payer = array(
+      "email" => "larue.nienow@email.com"
+    );
 
-// Crea un ítem en la preferencia
-$item = new MercadoPago\Item();
-$item->title = 'Mi producto';
-$item->quantity = 1;
-$item->unit_price = 75.56;
-$preference->items = array($item);
-$preference->save();
-?>
+    $payment->save();
 
-<script
-  
-  data-preference-id="<?php echo $preference->id; ?>">
-</script>
+    echo $payment->status;
+  ?>
